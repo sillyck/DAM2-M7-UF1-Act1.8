@@ -135,21 +135,44 @@ public class CalculadoraBinaria extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			double resultat;
-			int a = 0, operador = 0;
-			String intString = null;
+			int[] operador = new int[5];
+			int a = 0;
+			String intString = "", provisional = "";
 
 			for (int i = 1; i < ipDecimal.length; i++) {
-
+				
 				a = Integer.parseInt(ipDecimal[i].getText());
-				while (a >= 1) {
-					operador = a % 2;
-					intString = intString + operador;
-					a = a / 2;
-				}
-				System.out.println(intString);
-			}
-			
+				ipBinari[i].setText(binari(a));
+//				while (a >= 1) {
+//					operador[i] = a % 2;
+//					System.out.println(operador[i]);
+//					intString = intString + operador[i];
+//					a = a / 2;
+//				}
+//
+//				provisional = Integer.toString(operador[i]);
+//
+//				if (provisional.length() < 8) {
+//					int llargada = provisional.length()-8;
+//					
+//					for(int j=0; j<=llargada; j++) {
+//						provisional.concat("0");
+//					}
+//					
+//				}
+//				
+//				StringBuilder sb=new StringBuilder(provisional);
+//				sb.reverse();
+//				System.out.println(sb);
 
+			}
+			// System.out.println(intString);
+
+		}
+		
+		public String binari(int num) {
+			String valor = Integer.toBinaryString(num);
+			return String.format("%8s", valor).replace(" ", "0");
 		}
 	}
 
