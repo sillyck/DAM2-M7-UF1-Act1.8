@@ -134,9 +134,21 @@ public class CalculadoraBinaria extends JFrame {
 	public class EventBoto implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			int n, m;
+			double resultat;
+			int a = 0, operador = 0;
+			String intString = null;
+
+			for (int i = 1; i < ipDecimal.length; i++) {
+
+				a = Integer.parseInt(ipDecimal[i].getText());
+				while (a >= 1) {
+					operador = a % 2;
+					intString = intString + operador;
+					a = a / 2;
+				}
+				System.out.println(intString);
+			}
 			
-			System.out.println("You clicked the button");
 
 		}
 	}
