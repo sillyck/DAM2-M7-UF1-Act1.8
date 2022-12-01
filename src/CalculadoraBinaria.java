@@ -104,6 +104,60 @@ public class CalculadoraBinaria extends JFrame {
 
 	}
 
+	public class EventBoto implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			calcularIP();
+			calcularMascara();
+		}
+
+	}
+
+	public void calcularIP() {
+		int a, operador;
+		String intString = "", provisional = "";
+
+		for (int i = 1; i < ipDecimal.length; i++) {
+
+			intString = "";
+			a = Integer.parseInt(ipDecimal[i].getText());
+
+			do {
+				operador = a % 2;
+				intString = operador + intString;
+				a = a / 2;
+			} while (a > 0);
+
+			while (intString.length() <= 7) {
+				intString = "0" + intString;
+			}
+
+			StringBuilder sb = new StringBuilder(provisional);
+			sb.reverse();
+
+			ipBinari[i].setText(intString);
+		}
+
+	}
+
+	public void calcularMascara() {
+		int mascara = Integer.parseInt(ipMascara.getText());
+		String intString = "";
+
+		for (int i = 0; i < mascara; i++) {
+			intString = intString + "1";
+		}
+
+		while (intString.length() != 32) {
+			intString = intString + "0";
+		}
+
+		for (int i = 0; i < ipMasBinari.length; i++) {
+			ipMasBinari[i].setText(intString);
+		}
+
+	}
+
 	private void setTextIpDecimal() {
 		for (int i = 1; i < 5; i++) {
 			ipDecimal[i] = new JTextField(3);
@@ -130,50 +184,4 @@ public class CalculadoraBinaria extends JFrame {
 			xarxaBinari[i].setEditable(false);
 		}
 	}
-
-	public class EventBoto implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			double resultat;
-			int[] operador = new int[5];
-			int a = 0;
-			String intString = "", provisional = "";
-
-			for (int i = 1; i < ipDecimal.length; i++) {
-				
-				a = Integer.parseInt(ipDecimal[i].getText());
-				ipBinari[i].setText(binari(a));
-//				while (a >= 1) {
-//					operador[i] = a % 2;
-//					System.out.println(operador[i]);
-//					intString = intString + operador[i];
-//					a = a / 2;
-//				}
-//
-//				provisional = Integer.toString(operador[i]);
-//
-//				if (provisional.length() < 8) {
-//					int llargada = provisional.length()-8;
-//					
-//					for(int j=0; j<=llargada; j++) {
-//						provisional.concat("0");
-//					}
-//					
-//				}
-//				
-//				StringBuilder sb=new StringBuilder(provisional);
-//				sb.reverse();
-//				System.out.println(sb);
-
-			}
-			// System.out.println(intString);
-
-		}
-		
-		public String binari(int num) {
-			String valor = Integer.toBinaryString(num);
-			return String.format("%8s", valor).replace(" ", "0");
-		}
-	}
-
 }
