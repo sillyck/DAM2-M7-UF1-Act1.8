@@ -17,6 +17,7 @@ public class CalculadoraBinaria extends JFrame {
 	private JTextField[] ipBinari = new JTextField[5];
 	private JTextField[] ipMasBinari = new JTextField[5];
 	private JTextField[] xarxaBinari = new JTextField[5];
+	private JTextField Error = new JTextField(999);
 
 	public CalculadoraBinaria() {
 
@@ -77,7 +78,7 @@ public class CalculadoraBinaria extends JFrame {
 
 		// Grid organizat
 		JPanel panelDatos = new JPanel();
-		GridLayout gl = new GridLayout(4, 2);
+		GridLayout gl = new GridLayout(5, 2);
 		panelDatos.setLayout(gl);
 		panelDatos.add(new JLabel("IP Decimal: "));
 		panelDatos.add(panelIP);
@@ -87,6 +88,8 @@ public class CalculadoraBinaria extends JFrame {
 		panelDatos.add(panelSubred);
 		panelDatos.add(new JLabel("Red: "));
 		panelDatos.add(panelRed);
+		Error.setEditable(false);
+		panelDatos.add(Error);
 
 		// Boto de calcular
 		JButton boton = new JButton("Calcular");
@@ -107,8 +110,22 @@ public class CalculadoraBinaria extends JFrame {
 	public class EventBoto implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			calcularIP();
-			calcularMascara();
+
+			int a = 0;
+
+			for (int i = 1; i < ipDecimal.length; i++) {
+
+				a = Integer.parseInt(ipDecimal[i].getText());
+
+				if (a < 255 || a > 0) {
+					calcularIP();
+					calcularMascara();
+					calcularXarxa();
+				}else {
+					Error.setText("hola");
+				}
+			}
+
 		}
 
 	}
@@ -141,21 +158,51 @@ public class CalculadoraBinaria extends JFrame {
 	}
 
 	public void calcularMascara() {
-		int mascara = Integer.parseInt(ipMascara.getText());
+		int a = 0, operador;
 		String intString = "";
+		int mascara = Integer.parseInt(ipMascara.getText());
 
 		for (int i = 0; i < mascara; i++) {
-			intString = intString + "1";
+
+			intString = "";
+			do {
+				operador = a % 2;
+				intString = operador + intString;
+				a = a / 2;
+			} while (a > 0);
+
+			intString = "1";
+
+			for (i = 1; i < mascara; i++) {
+				intString = intString + "1";
+			}
+
+			do {
+				intString = intString + "0";
+			} while (intString.length() < 33);
+
 		}
 
-		while (intString.length() != 32) {
-			intString = intString + "0";
+		for (int j = 1; j <= 4; j++) {
+			ipMasBinari[j].setText(intString.substring((j - 1) * 8, (j - 1) * 8 + 8));
 		}
 
-		for (int i = 0; i < ipMasBinari.length; i++) {
-			ipMasBinari[i].setText(intString);
-		}
+	}
 
+	public void calcularXarxa() {
+		for (int i = 1; i <= 4; i++) {
+			StringBuilder sb = new StringBuilder();
+			for (int j = 0; j < 8; j++) {
+				ipMasBinari[i].getText().substring(j, j + 1);
+
+				if (ipMasBinari[i].getText().substring(j, j + 1).equals("1")) {
+					sb.append(ipBinari[i].getText().substring(j, j + 1));
+				} else {
+					sb.append("0");
+				}
+			}
+			xarxaBinari[i].setText(sb.toString());
+		}
 	}
 
 	private void setTextIpDecimal() {
