@@ -17,13 +17,13 @@ public class CalculadoraBinaria extends JFrame {
 	private JTextField[] ipBinari = new JTextField[5];
 	private JTextField[] ipMasBinari = new JTextField[5];
 	private JTextField[] xarxaBinari = new JTextField[5];
-	private JTextField Error = new JTextField(999);
+	private JTextField Error = new JTextField(10);
 
 	public CalculadoraBinaria() {
 
-		super("IP Clalculadora");
+		super("Calculadora IP Binaria");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(900, 400);
+		setSize(900, 300);
 
 		setTextIpDecimal();
 		setTextBi();
@@ -112,17 +112,46 @@ public class CalculadoraBinaria extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 
 			int a = 0;
+			boolean errors = false;
+			int mascara = 0;
 
 			for (int i = 1; i < ipDecimal.length; i++) {
 
-				a = Integer.parseInt(ipDecimal[i].getText());
+				if (ipDecimal[i].getText().isEmpty() && ipMascara.getText().isEmpty()) {
+					Error.setText("Hi ha algun camp buit");
+					errors = true;
 
-				if (a < 255 || a > 0) {
-					calcularIP();
-					calcularMascara();
-					calcularXarxa();
+				} else if (!isNumero(ipDecimal[i].getText().toString())) {
+					Error.setText("Algun camp de la ip no te numeros");
+					errors = true;
+					
 				}else {
-					Error.setText("hola");
+					a = Integer.parseInt(ipDecimal[i].getText());
+					
+				}
+
+				if (a > 255 || a < 0) {
+					Error.setText("La Ip no es correcte");
+					errors = true;
+
+				} else if (mascara > 32 || mascara < 0) {
+					Error.setText("La mascara no es correcte");
+					errors = true;
+
+				}
+
+			}
+
+			if (errors == false) {
+				calcularIP();
+				calcularMascara();
+				calcularXarxa();
+				Error.setText("");
+			} else {
+				for (int i = 1; i < 5; i++) {
+					ipBinari[i].setText("");
+					ipMasBinari[i].setText("");
+					xarxaBinari[i].setText("");
 				}
 			}
 
@@ -202,6 +231,15 @@ public class CalculadoraBinaria extends JFrame {
 				}
 			}
 			xarxaBinari[i].setText(sb.toString());
+		}
+	}
+
+	private static boolean isNumero(String cadena) {
+		try {
+			Integer.parseInt(cadena);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
 		}
 	}
 
