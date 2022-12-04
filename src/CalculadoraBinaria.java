@@ -127,6 +127,7 @@ public class CalculadoraBinaria extends JFrame {
 					
 				}else {
 					a = Integer.parseInt(ipDecimal[i].getText());
+					mascara = Integer.parseInt(ipMascara.getText());
 					
 				}
 
