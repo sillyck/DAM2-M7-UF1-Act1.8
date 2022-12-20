@@ -117,7 +117,7 @@ public class CalculadoraBinaria extends JFrame {
 
 			for (int i = 1; i < ipDecimal.length; i++) {
 
-				if (ipDecimal[i].getText().isEmpty() && ipMascara.getText().isEmpty()) {
+				if (ipDecimal[i].getText().isEmpty() || ipMascara.getText().isEmpty()) {
 					Error.setText("Hi ha algun camp buit");
 					errors = true;
 
@@ -209,7 +209,7 @@ public class CalculadoraBinaria extends JFrame {
 
 			do {
 				intString = intString + "0";
-			} while (intString.length() < 33);
+			} while (intString.length() < 32);
 
 		}
 
